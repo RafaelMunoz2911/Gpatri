@@ -13,7 +13,6 @@ conn.execute('CREATE TABLE IF NOT EXISTS usuarios(\
 #criando tabela computadores
 conn.execute('CREATE TABLE IF NOT EXISTS computadores(\
                 id INTEGER PRIMARY KEY, \
-                ip INTEGER,\
                 ip TEXT,\
                 patrimonio INTEGER,\
                 hostname TEXT,\
