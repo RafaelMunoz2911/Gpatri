@@ -58,6 +58,13 @@ def get_pcs_on_assignment():
     conn.close()
     return result
 
+#função para atualizar a data de troca de um computador
+def update_assignment_swithc_date(id_atribuicoes,data_troca):
+    con = connect()
+    con.execute("UPDATE atribuicoes SET data_troca = ? WHERE id = ?", (data_troca, id_atribuicoes))
+    con.commit()
+    con.close()
+
 #exemplo de funções:
 #insert_user("Rafael Ortiz", "Informatica", "informatica@ourominas.com.br")
 #insert_pc("172.18.1.78", 18564, "OM-TI03", "Vostro", "Intel I5", "32gb", "ssd 240gb", 2,  "novo e em bom uso")
@@ -65,3 +72,4 @@ def get_pcs_on_assignment():
 
 #pc = get_pcs_on_assignment()
 #print(pc)
+#update_assignment_swithc_date(1, "26/08/2025")
