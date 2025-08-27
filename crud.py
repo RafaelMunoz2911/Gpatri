@@ -59,7 +59,7 @@ def get_pcs_on_assignment():
     return result
 
 #função para atualizar a data de troca de um computador
-def update_assignment_swithc_date(id_atribuicoes,data_troca):
+def update_trade(id_atribuicoes,data_troca):
     con = connect()
     con.execute("UPDATE atribuicoes SET data_troca = ? WHERE id = ?", (data_troca, id_atribuicoes))
     con.commit()

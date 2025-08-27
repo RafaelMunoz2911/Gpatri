@@ -51,6 +51,18 @@ frameEsquerda.place(x=0, y=50)
 frameDireita = Frame(janela, width=720, height=300, bg=co1, relief="raised")
 frameDireita.place(x=240, y=50)
 
+# logo 
+#abrindo imagens """""importante"""""
+app_img = Image.open('logo.png')
+app_img = app_img.resize((40,40))
+app_img = ImageTk.PhotoImage(app_img)
+
+app_logo = Label(frameCima, image=app_img, width=1000, compound=LEFT, padx=5, anchor=NW, bg=co8, fg=co1)
+app_logo.place(x=5, y=0)
+
+app = Label(frameCima, text="Sistema de Gerenciamento de Patrimónios", compound=LEFT, padx=5, anchor=NW, font=('Verdana 15 bold'), bg=co8, fg=co9)
+app.place(x=50, y=7)
+
 #novo usuario
 def novo_usuario():
 
@@ -86,7 +98,7 @@ def novo_usuario():
     app = Label(frameDireita, width=950, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
     app.place(x=0, y=40)
 
-    l_nome = Label(frameDireita, text="Primeiro nome*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
+    l_nome = Label(frameDireita, text="Nome completo*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
     l_nome.place(x=200, y=60)
     e_nome = Entry(frameDireita, width=25, justify='left', relief='solid')
     e_nome.place(x=350, y=60)
@@ -114,9 +126,9 @@ def novo_usuario():
 def ver_usuarios():
 
     app_ = Label(frameDireita, text="Todos os usuários cadastrados", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
-    app_.grid(row=0, column=0, columnspan=4, sticky=NSEW)
-    app = Label(frameDireita, width=400, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
-    app.grid(row=1, column=0, columnspan=4, sticky=NSEW)
+    app_.grid(row=0, column=0, columnspan=3, sticky=NSEW)
+    app = Label(frameDireita, width=715, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
+    app.grid(row=1, column=0, columnspan=3, sticky=NSEW)
 
     dados = get_users()
 
@@ -322,43 +334,125 @@ def nova_atribuicao():
         e_id_computador.delete(0,END)
         e_id_usuario.delete(0,END)
 
-    app_ = Label(frameDireita, text="Realizar uma nova atribuição", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
-    app_.grid(row=0, column=0, columnspan=5, sticky=NSEW)
-    app = Label(frameDireita, width=400, height=1, anchor=NW, font=('Verdana 1'), bg=co3, fg=co1)
-    app.grid(row=1, column=0, columnspan=5, sticky=NSEW)
 
-    l_id_usuario = Label(frameDireita, text="Digite o ID do usuario*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
-    l_id_usuario.grid(row=2, column=0, padx=5, pady=5, sticky=NSEW)
+    app_ = Label(frameDireita, text="Realizar uma nova atribuição", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
+    app_.place(x=90, y=0)
+    app = Label(frameDireita, width=950, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
+    app.place(x=0, y=40)
+
+    l_id_usuario = Label(frameDireita, text="Digite o ID do usuário*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
+    l_id_usuario.place(x=180, y=60)
     e_id_usuario = Entry(frameDireita, width=25, justify='left', relief='solid')
-    e_id_usuario.grid(row=2, column=1, padx=5, pady=5, sticky=NSEW)
+    e_id_usuario.place(x=350, y=60)
 
     l_id_computador = Label(frameDireita, text="Digite o ID do computador*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
-    l_id_computador.grid(row=3, column=0, padx=5, pady=5, sticky=NSEW)
+    l_id_computador.place(x=180, y=100)
     e_id_computador = Entry(frameDireita, width=25, justify='left', relief='solid')
-    e_id_computador.grid(row=3, column=1, padx=5, pady=5, sticky=NSEW)
+    e_id_computador.place(x=350, y=100)
 
     #Botão salvar
     img_salvar = Image.open('save.png')
     img_salvar = img_salvar.resize((18,18))
     img_salvar = ImageTk.PhotoImage(img_salvar)
     b_salvar = Button(frameDireita,command=add, image=img_salvar, compound=LEFT, width=100, anchor=NW, text=" Salvar", bg=co1, fg=co4, font=('Ivy 11'), overrelief=RIDGE, relief=GROOVE)
-    b_salvar.grid(row=7, column=1, padx=5, pady=5, sticky=NSEW)
+    b_salvar.place(x=290, y=140)
 
+#ver atribuições
+def ver_atribuicao():
+
+    app_ = Label(frameDireita, text="Todos os Computadores em uso no momento", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
+    app_.grid(row=0, column=0, columnspan=4, sticky=NSEW)
+    app = Label(frameDireita, width=715, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
+    app.grid(row=1, column=0, columnspan=4, sticky=NSEW)
+
+    dados = get_pcs_on_assignment()
+
+    #criando a treevew com duas scrollsbars
+    list_header = ['ID', 'Usuário', 'Modelo', 'Patrimonio', 'Data atribuição', 'Data Troca']
+    
+    global tree
+
+    tree = ttk.Treeview(frameDireita, selectmode="extended", columns=list_header, show="headings")
+    
+    #scrollbar vertical
+    vsb = ttk.Scrollbar(frameDireita, orient="vertical", command=tree.yview)
+
+    #scrollbar horizontal
+    hsb = ttk.Scrollbar(frameDireita, orient="horizontal", command=tree.xview)
+
+    tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+
+    tree.grid(column=0, row=2, sticky='nsew')
+    vsb.grid(column=1, row=2, sticky='ns')
+    hsb.grid(column=0, row=3, sticky='ew')
+    frameDireita.grid_columnconfigure(0, weight=12)
+    
+    hd=["nw","nw","nw","nw","nw","nw"]
+    h=[30,70,70,30,70,80]
+    n=0
+
+    for col in list_header:
+        tree.heading(col, text=col, anchor='nw')
+        #ajustando a largura da coluna ao cabeçalho
+        tree.column(col, width=h[n], anchor=hd[n])
+
+        n+=1
+
+    for item in dados:
+        tree.insert('', 'end', values=item)
+
+#realizar a troca de equipamentos
+def realiza_troca():
+    
+    global img_salvar
+
+    def add():
+        id_atribuicao = e_id_atribuicao.get()
+        data_troca = e_data_troca.get()
+
+        lista = [id_atribuicao,data_troca]
+        
+        #verificando caso algum campo esteja vazio
+        for i in lista:
+            if i=='':
+                messagebox.showerror('Erro!!!', 'Preencha todos os campos!!!')
+                return
+        
+        #inserindo os dados no banco de dados
+        update_trade(id_atribuicao,data_troca)
+
+        messagebox.showinfo('Sucesso!!!', 'Livro retornado  com sucesso!!!')
+
+        #limpando os campos de entrada
+        e_id_atribuicao.delete(0,END)
+        e_data_troca.delete(0,END)
+
+    app_ = Label(frameDireita, text="Realizar uma troca", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
+    app_.place(x=90, y=0)
+    app = Label(frameDireita, width=715, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
+    app.place(x=0, y=40)
+
+    l_id_atribuicao = Label(frameDireita, text="ID da Atribuição*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
+    l_id_atribuicao.place(x=180, y=60)
+    e_id_atribuicao = Entry(frameDireita, width=25, justify='left', relief='solid')
+    e_id_atribuicao.place(x=350, y=60)
+
+    l_data_troca = Label(frameDireita, text="Data de devolução*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
+    l_data_troca.place(x=180, y=100)
+    e_data_troca = Entry(frameDireita, width=25, justify='left', relief='solid')
+    e_data_troca.place(x=350, y=100)
+
+    #Botão salvar
+    img_salvar = Image.open('save.png')
+    img_salvar = img_salvar.resize((18,18))
+    img_salvar = ImageTk.PhotoImage(img_salvar)
+    b_salvar = Button(frameDireita,command=add, image=img_salvar, compound=LEFT, width=100, anchor=NW, text=" Salvar", bg=co1, fg=co4, font=('Ivy 11'), overrelief=RIDGE, relief=GROOVE)
+    b_salvar.place(x=290, y=140)
+
+   
 #criando divisorias "util de mais pra todo projeto"
 app = Label(frameCima, width=950, height=1, padx=5, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
 app.place(x=0, y=47)
-
-# logo 
-#abrindo imagens """""importante"""""
-app_img = Image.open('logo.png')
-app_img = app_img.resize((40,40))
-app_img = ImageTk.PhotoImage(app_img)
-
-app_logo = Label(frameCima, image=app_img, width=1000, compound=LEFT, padx=5, anchor=NW, bg=co8, fg=co1)
-app_logo.place(x=5, y=0)
-
-app = Label(frameCima, text="Sistema de Gerenciamento de Patrimónios", compound=LEFT, padx=5, anchor=NW, font=('Verdana 15 bold'), bg=co8, fg=co9)
-app.place(x=50, y=7)
 
 #função para controlar o meni
 def control(i):
@@ -397,9 +491,18 @@ def control(i):
         #chamando func novo usuario   
         nova_atribuicao()
 
+    #ver atribuição
+    if i == 'ver_atribuicao':
+        for widget in frameDireita.winfo_children():
+            widget.destroy()
+        #chamando func novo usuario   
+        ver_atribuicao()
 
-
-
+    if i == 'realizar_troca':
+        for widget in frameDireita.winfo_children():
+            widget.destroy()
+        #chamando func novo usuario   
+        realiza_troca()
 
 # Menu
 #NOVO USUARIO
@@ -437,13 +540,13 @@ b_assingnment.grid(row=4,column=0,sticky=NSEW, padx=5, pady=8)
 img_used_pcs = Image.open('used_pc.png')
 img_used_pcs = img_used_pcs.resize((18,18))
 img_used_pcs = ImageTk.PhotoImage(img_used_pcs)
-b_usuario = Button(frameEsquerda, image=img_used_pcs, compound=LEFT, anchor=NW, text=" Computadores em utilização", bg=co9, fg=co1, font=('Ivy 11'), activebackground= co9, overrelief=RIDGE, relief=FLAT)
+b_usuario = Button(frameEsquerda, command=lambda:control('ver_atribuicao'), image=img_used_pcs, compound=LEFT, anchor=NW, text=" Computadores em utilização", bg=co9, fg=co1, font=('Ivy 11'), activebackground= co9, overrelief=RIDGE, relief=FLAT)
 b_usuario.grid(row=5,column=0,sticky=NSEW, padx=5, pady=8)
 
 img_trade = Image.open('update.png')
 img_trade = img_trade.resize((18,18))
 img_trade = ImageTk.PhotoImage(img_trade)
-b_usuario = Button(frameEsquerda, image=img_trade, compound=LEFT, anchor=NW, text=" Realizar troca de equipamento", bg=co9, fg=co1, font=('Ivy 11'), activebackground= co9, overrelief=RIDGE, relief=FLAT)
+b_usuario = Button(frameEsquerda, command=lambda:control('realizar_troca'), image=img_trade, compound=LEFT, anchor=NW, text=" Realizar troca de equipamento", bg=co9, fg=co1, font=('Ivy 11'), activebackground= co9, overrelief=RIDGE, relief=FLAT)
 b_usuario.grid(row=6,column=0,sticky=NSEW, padx=5, pady=8)
 
 janela.mainloop()
