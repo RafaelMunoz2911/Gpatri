@@ -43,13 +43,13 @@ style.theme_use("clam")
 
 # frames 
 frameCima = Frame(janela, width=960, height=50, bg=co8, relief="flat")
-frameCima.grid(row=0, column=0, columnspan=2, sticky=NSEW)
+frameCima.place(x=0, y=0)
 
 frameEsquerda = Frame(janela, width=150, height=265, bg=co9, relief="solid")
-frameEsquerda.grid(row=1, column=0, sticky=NSEW)
+frameEsquerda.place(x=0, y=50)
 
-frameDireita = Frame(janela, width=600, height=265, bg=co1, relief="raised")
-frameDireita.grid(row=1, column=1, sticky=NSEW)
+frameDireita = Frame(janela, width=720, height=300, bg=co1, relief="raised")
+frameDireita.place(x=240, y=50)
 
 #novo usuario
 def novo_usuario():
@@ -81,34 +81,34 @@ def novo_usuario():
         e_email.delete(0,END)
        
 
-    app_ = Label(frameDireita, text="Inserir um novo usuário", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
-    app_.grid(row=0, column=0, columnspan=3, sticky=NSEW)
-
-    app = Label(frameDireita, width=960, height=1, anchor=NW, font=('Verdana 1'), bg=co3, fg=co1)
-    app.grid(row=1, column=0, columnspan=4, sticky=NSEW)
+    app_ = Label(frameDireita, text="Adicionar um novo usuário", width=50, compound=LEFT, padx=5, pady=10, font=('Verdana 12'), bg=co1, fg=co4)
+    app_.place(x=90, y=0)
+    app = Label(frameDireita, width=950, height=1, anchor=NW, font=('Verdana 1'), bg=co4, fg=co1)
+    app.place(x=0, y=40)
 
     l_nome = Label(frameDireita, text="Primeiro nome*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
-    l_nome.grid(row=2, column=0, padx=5, pady=5, sticky=NSEW)
+    l_nome.place(x=200, y=60)
     e_nome = Entry(frameDireita, width=25, justify='left', relief='solid')
-    e_nome.grid(row=2, column=1, padx=5, pady=5, sticky=NSEW)
+    e_nome.place(x=350, y=60)
 
     l_setor = Label(frameDireita, text="Setor*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
-    l_setor.grid(row=3, column=0, padx=5, pady=5, sticky=NSEW)
+    l_setor.place(x=200, y=100)
     e_setor = Entry(frameDireita, width=25, justify='left', relief='solid')
-    e_setor.grid(row=3, column=1, padx=5, pady=5, sticky=NSEW)
+    e_setor.place(x=350, y=100)
 
 
-    l_email = Label(frameDireita, text="Endereço de e-mail*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
-    l_email.grid(row=4, column=0, padx=5, pady=5, sticky=NSEW)
+    l_email = Label(frameDireita, text="E-mail*", anchor=NW, font=('Ivy 10'), bg=co1, fg=co4)
+    l_email.place(x=200, y=140)
     e_email = Entry(frameDireita, width=25, justify='left', relief='solid')
-    e_email.grid(row=4, column=1, padx=5, pady=5, sticky=NSEW)
+    e_email.place(x=350, y=140)
+
 
     #Botão salvar
     img_salvar = Image.open('save.png')
     img_salvar = img_salvar.resize((18,18))
     img_salvar = ImageTk.PhotoImage(img_salvar)
     b_salvar = Button(frameDireita,command=add, image=img_salvar, compound=LEFT, width=100, anchor=NW, text=" Salvar", bg=co1, fg=co4, font=('Ivy 11'), overrelief=RIDGE, relief=GROOVE)
-    b_salvar.grid(row=5, column=1, padx=5, pady=5, sticky=NSEW)
+    b_salvar.place(x=290, y=180)
 
 #ver usuarios
 def ver_usuarios():
